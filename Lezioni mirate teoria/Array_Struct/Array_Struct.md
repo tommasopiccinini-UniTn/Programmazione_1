@@ -32,6 +32,8 @@ int w[5] = {7};     // {7, 0, 0, 0, 0}
 static int z[5];    // {0, 0, 0, 0, 0}
 ```
 
+(L'esempio con `static` e la sua inizializzazione automatica a zero è una precisazione non esplicitata nelle slide sugli array.)
+
 Se il testo chiede di inserire `ND` per valori non determinabili:
 - Gli elementi **omessi** da una lista di inizializzazione **non** sono `ND`: diventano zero.
 - Gli elementi di un array locale **senza inizializzazione** non hanno un valore iniziale determinabile (quindi `ND`, finché non vengono assegnati).
@@ -73,7 +75,7 @@ riga 3     2   -1    0
 
 **Non c'è alcun `ND` nella risposta.**
 
-> **Attenzione allo standard:** l'inizializzatore vuoto `{}` è valido in C23 e in C++; nelle precedenti versioni standard del C non è ammesso (salvo estensioni). Nell'esercizio va interpretato secondo l'intenzione del testo d'esame: tutti zeri. Per scrivere una riga completamente azzerata compatibile anche con C precedenti, si può usare `{0}`.
+> **Attenzione allo standard:** l'inizializzatore vuoto `{}` è valido in C23 e in C++; nelle precedenti versioni standard del C non è ammesso (salvo estensioni). Nell'esercizio va interpretato secondo l'intenzione del testo d'esame: tutti zeri. Per scrivere una riga completamente azzerata compatibile anche con C precedenti, si può usare `{0}`. (**La precisazione su C23/C++ non è spiegata nelle slide; la sintassi `{}` compare nel testo d'esame.**)
 
 ## 3. Matrici e parentesi graffe: con e senza raggruppamento
 
@@ -213,7 +215,7 @@ for (int i = 0; i < 3; i++) {
 }
 ```
 
-È possibile anche copiare array di dimensioni compatibili con `memcpy` (`<string.h>`), quando gli oggetti e le aree di memoria rispettano le relative condizioni:
+È possibile anche copiare array di dimensioni compatibili con `memcpy` (`<string.h>`), quando gli oggetti e le aree di memoria rispettano le relative condizioni (**funzione `memcpy` non presente nelle slide: approfondimento facoltativo**):
 
 ```c
 #include <string.h>
@@ -254,6 +256,8 @@ a = b;  // valido; a.valori ora contiene {4, 5, 6}
 | `structA.campoArray = structB.campoArray;` | **No**, il campo è comunque un array |
 
 ## 8. Perché `int (*p)[3] = m` è valido, e `int **q = m` no?
+
+(**Approfondimento tecnico non sviluppato esplicitamente nelle slide**: la distinzione fra puntatore a un'intera riga `int (*)[3]` e doppio puntatore `int **` applica le regole sugli array e sui puntatori trattate nel corso.)
 
 **Questo è uno dei dettagli più importanti dell'approfondimento.**
 
@@ -352,6 +356,8 @@ La prima indicizzazione seleziona la **riga**; la seconda seleziona il **singolo
 
 ## 9. `sizeof` delle matrici
 
+(Gli esempi specifici con `sizeof` applicato a righe e matrici sono un **approfondimento non illustrato esplicitamente nelle slide**; l'operatore `sizeof` è invece presente nelle dispense.)
+
 ```c
 int m[2][3] = {
     {1, 2, 3},
@@ -425,7 +431,7 @@ Questo esercizio combina **array + `struct` + condizioni + cicli**.
 
 ## 11. Variable Length Arrays (VLA): array di lunghezza variabile
 
-La dispensa **4.1 Array** introduce gli array a lunghezza variabile, presenti in **C99** e soggetti alle regole di supporto dei successivi standard C.
+La dispensa **4.1 Array** introduce gli array a lunghezza variabile, presenti in **C99** e soggetti alle regole di supporto dei successivi standard C (**la precisazione sul supporto negli standard successivi non è trattata nelle slide**).
 
 ```c
 int n = 5;
@@ -434,7 +440,7 @@ int a[n];     // dimensione determinata a esecuzione
 
 Non è la stessa cosa di un array con dimensione fissata da un'espressione costante. Per un VLA automatico, la dimensione deve risultare valida (maggiore di zero) quando la dichiarazione viene eseguita.
 
-**Confronto concettuale con la memoria dinamica** (approfondimento ulteriore; la dispensa caricata non sviluppa `malloc`/`free` con esempi):
+**Confronto concettuale con la memoria dinamica** (**le funzioni `malloc` e `free` non compaiono nelle slide caricate; questo confronto è un approfondimento**):
 
 ```c
 #include <stdlib.h>
