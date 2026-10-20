@@ -309,3 +309,63 @@ Con `N = 3`: `0 1 2` / `1 1 2` / `2 2 2`. Il ritorno a capo va dopo il ciclo int
 - Nelle condizioni, `0` è falso e un valore **diverso da zero** è vero.
 - `for (int i = 0; ...)`: il contatore dichiarato nell'intestazione non è accessibile dopo il ciclo.
 - Un `while` può eseguire zero iterazioni, un `do-while` ne esegue almeno una; attenzione ai cicli che non raggiungono mai una condizione falsa.
+
+---
+
+## 13. Conteggio condizionato su array di `struct`
+
+**Esempio illustrativo ispirato alla domanda 6 della [prima prova teorica del 22/10/2024](../../Prove_Teoriche/22102024%201_ProvaTeorica%20PROG1.pdf).** Il codice seguente è **didattico, non una trascrizione** della domanda d'esame.
+
+**Richiesta:** determinare che cosa stampa il programma.
+
+```c
+#include <stdio.h>
+
+typedef struct {
+    int matricola;
+    int voto;
+    int presente;
+} Studente;
+
+int main(void) {
+    Studente a[5] = {
+        {101, 24, 1},
+        {102, 17, 1},
+        {103, 30, 0},
+        {104, 28, 1},
+        {105, 20, 1}
+    };
+
+    int conta = 0;
+
+    for (int i = 0; i < 5; i++) {
+        if (a[i].voto >= 18 && a[i].presente)
+            conta++;
+    }
+
+    printf("%d\n", conta);
+    return 0;
+}
+```
+
+**Output:** `3`. Sono conteggiati soltanto gli studenti **101, 104 e 105**, perché per loro entrambe le condizioni sono vere.
+
+| Matricola | Voto `>= 18` | `presente != 0` | `conta++` |
+|---|---|---|---|
+| 101 | Sì | Sì | Sì |
+| 102 | No | Sì | No |
+| 103 | Sì | No | No |
+| 104 | Sì | Sì | Sì |
+| 105 | Sì | Sì | Sì |
+
+### Attenzioni tipiche negli esercizi di conteggio
+
+- **Condizione completa:** con `&&` *tutte* le condizioni devono essere vere; con `||` ne basta almeno una. Se sono combinate, controllare precedenza e parentesi (`&&` ha precedenza maggiore di `||`).
+- **Valori booleani in C:** `a[i].presente` è vero se diverso da zero, non necessariamente uguale a 1.
+- **Contatore inizializzato:** partire da `conta = 0`, poi aumentare il contatore **solo** quando la condizione è vera. Non confondere il numero di iterazioni con quello degli elementi selezionati.
+- **Campo della struttura:** `a[i].voto` usa `.` perché `a[i]` è una struttura, non un puntatore; attenzione a non scambiare `.` con `->`.
+- **Confronti vs assegnazioni:** `==` confronta, `=` assegna. Un'assegnazione accidentale dentro un `if` può alterare sia i dati sia il risultato.
+- **Cortocircuito:** in `A && B`, se `A` è falsa, `B` non viene valutata; in `A || B`, se `A` è vera, `B` non viene valutata. Importa soprattutto se ci sono funzioni o incrementi dentro le condizioni.
+- **Metodo rapido:** tabella con *indice → valori dei campi → condizione vera/falsa → contatore aggiornato*.
+
+Questo è un esercizio di **cicli + array di strutture**, non una matrice bidimensionale; resta utile perché ricorre lo stesso ragionamento di attraversamento e verifica delle condizioni.
