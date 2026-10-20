@@ -170,7 +170,7 @@ do {
 - Annotare anche **l'ultima condizione falsa**: spiega perché il ciclo termina.
 - Nei cicli annidati, ricominciare a tracciare il ciclo interno per ogni iterazione di quello esterno.
 
-> Nota C: esempi come `printf("%d %d", i++, ++i)` modificano senza sequenziamento la stessa variabile nella medesima espressione e hanno comportamento indefinito. Non attribuire loro un output «sicuro».
+> Nota C: esempi come `printf("%d %d", i++, ++i)` modificano senza sequenziamento la stessa variabile nella medesima espressione e hanno comportamento indefinito. Non attribuire loro un output «sicuro». **(Precisazione sul sequenziamento non trattata nelle slide; approfondimento dello standard C.)**
 
 ## 6. Riferimento all'esame
 
