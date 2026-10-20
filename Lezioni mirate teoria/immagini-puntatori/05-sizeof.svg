@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="310" viewBox="0 0 960 310" role="img"><defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0 L0 6 L9 3 z" fill="#137D80"/></marker></defs><rect width="960" height="310" rx="18" fill="#FFFFFF"/><g font-family="Arial,Helvetica,sans-serif">
+<text x="37" y="43" font-size="25" font-weight="700" fill="#132238">sizeof(p) misura il puntatore; sizeof(*p) il dato</text>
+<rect x="68" y="101" width="344" height="123" rx="12" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2"/>
+<rect x="547" y="101" width="344" height="123" rx="12" fill="#E4F5F3" stroke="#137D80" stroke-width="2"/>
+<text x="240" y="137" text-anchor="middle" font-size="26" font-weight="700" fill="#132238">p : short int *</text>
+<text x="240" y="171" text-anchor="middle" font-size="20" fill="#63748B">contiene &amp;i</text>
+<text x="240" y="205" text-anchor="middle" font-size="23" font-weight="700" fill="#137D80">sizeof(p) = 8</text>
+<path d="M413 159 H536" stroke="#137D80" stroke-width="4" marker-end="url(#arrow)"/>
+<text x="719" y="137" text-anchor="middle" font-size="26" font-weight="700" fill="#132238">i : short int</text>
+<text x="719" y="171" text-anchor="middle" font-size="20" fill="#63748B">valore = 20</text>
+<text x="719" y="205" text-anchor="middle" font-size="23" font-weight="700" fill="#137D80">sizeof(*p) = 2</text>
+<text x="480" y="267" text-anchor="middle" font-size="17" fill="#63748B">Ipotesi: indirizzi di 8 byte; short int di 2 byte.</text>
+</g></svg>
