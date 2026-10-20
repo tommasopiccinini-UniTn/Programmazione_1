@@ -175,3 +175,95 @@ do {
 ## 6. Riferimento all'esame
 
 Nella [prima prova teorica del 22/10/2024](../../Prove_Teoriche/22102024%201_ProvaTeorica%20PROG1.pdf), la **domanda 2** richiede l'output di frammenti di codice con `for` e incrementi/decrementi, mentre la **domanda 3** richiede la stampa di una figura usando i cicli. Il procedimento consigliato per la domanda 2 è tracciare per ogni iterazione **valore in ingresso, stampa, modifica nel corpo e aggiornamento**.
+
+---
+
+## 7. Doppi cicli su matrici
+
+In `M[righe][colonne]`, `M[i][j]` indica la cella alla riga `i`, colonna `j`. Con il ciclo esterno sulle righe e quello interno sulle colonne si visita ogni riga da sinistra a destra:
+
+```c
+for (int i = 0; i < R; i++)
+    for (int j = 0; j < C; j++)
+        printf("%d ", M[i][j]);
+```
+
+**Da tracciare:** coppia `(i,j)`, valore letto e eventuale modifica. L'ordine conta se il corpo cambia celle che verranno lette successivamente.
+
+### Zone della matrice quadrata (`N × N`)
+
+| Condizione | Zona |
+|---|---|
+| `i == j` | Diagonale principale |
+| `i + j == N - 1` | Diagonale secondaria |
+| `i < j` / `i > j` | Sopra / sotto la diagonale principale |
+| `j = i; j < N; j++` | Triangolo superiore, diagonale inclusa |
+| `j = i + 1; j < N; j++` | Triangolo superiore, diagonale esclusa |
+| `j = 0; j < i; j++` | Triangolo inferiore, diagonale esclusa |
+
+## 8. Scambi, trasposizione e simmetria
+
+```c
+int M[3][3] = {{1,2,3}, {4,5,6}, {7,8,9}};
+for (int i = 0; i < 3; i++)
+    for (int j = i + 1; j < 3; j++) {
+        int t = M[i][j];
+        M[i][j] = M[j][i];
+        M[j][i] = t;
+    }
+```
+
+**Risultato (trasposta):**
+
+```text
+1 4 7
+2 5 8
+3 6 9
+```
+
+Gli scambi sono `(0,1) ↔ (1,0)`, `(0,2) ↔ (2,0)`, `(1,2) ↔ (2,1)`. **Se `j` partisse da 0**, ogni coppia fuori diagonale verrebbe scambiata *due volte* e la matrice tornerebbe identica. Per verificare la **simmetria** si confrontano `M[i][j]` e `M[j][i]` solo per `j > i`.
+
+## 9. Modifiche cumulative: valori già aggiornati
+
+```c
+int M[2][2] = {{1,2}, {3,4}};
+for (int i = 0; i < 2; i++)
+    for (int j = 0; j < 2; j++)
+        M[i][j] += M[0][0];
+```
+
+**Risultato:** `{{2,4}, {5,6}}`, **non** `{{2,3}, {4,5}}`: alla prima iterazione `M[0][0]` passa da 1 a 2; tutte le altre celle sommano **2**. Le assegnazioni non avvengono simultaneamente.
+
+## 10. Inizializzazione, limiti e memoria
+
+```c
+int A[2][3] = {{1,2}, {3,4}};
+// A = {{1,2,0}, {3,4,0}}
+```
+
+- Gli elementi **omessi in un'inizializzazione** sono posti a zero; una matrice locale dichiarata senza inizializzatore (`int A[2][3];`) ha invece valori indeterminati.
+- `int A[][3] = {{1,2,3},{4,5,6}};` è valido; `int A[2][] = ...;` non lo è: la dimensione interna (colonne) va specificata.
+- Il C memorizza le matrici **per righe** (*row-major*): `{{1,2,3},{4,5,6}}` occupa celle consecutive nell'ordine `1 2 3 4 5 6`.
+- Indici validi per `M[R][C]`: `0 ≤ i < R` e `0 ≤ j < C`. `M[j][i]` può uscire dai limiti se si invertono righe e colonne in una matrice non quadrata.
+
+## 11. Figure stampate con doppi cicli
+
+Per stampare un pattern numerico **senza costruire una matrice**, la chiave è esprimere il valore come funzione di riga e colonna. Esempio: `max(i, j)`.
+
+```c
+for (int i = 0; i < N; i++) {
+    for (int j = 0; j < N; j++)
+        printf("%d ", i > j ? i : j);
+    printf("\\n");
+}
+```
+
+Con `N = 3`: `0 1 2` / `1 1 2` / `2 2 2`. Il ritorno a capo va dopo il ciclo interno.
+
+## 12. Altri dettagli sui cicli (promemoria)
+
+- `break`: termina il ciclo **più interno** che lo contiene.
+- `continue`: salta il resto del corpo; nel `for` si passa all'**aggiornamento**, poi alla condizione.
+- Nelle condizioni, `0` è falso e un valore **diverso da zero** è vero.
+- `for (int i = 0; ...)`: il contatore dichiarato nell'intestazione non è accessibile dopo il ciclo.
+- Un `while` può eseguire zero iterazioni, un `do-while` ne esegue almeno una; attenzione ai cicli che non raggiungono mai una condizione falsa.
