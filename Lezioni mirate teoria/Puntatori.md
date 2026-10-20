@@ -15,7 +15,7 @@ int x = 10;
 int *p = &x;
 ```
 
-![Memoria della variabile puntatore p e della variabile intera x](immagini-puntatori/01-memoria.svg)
+![Memoria della variabile puntatore p e della variabile intera x](Puntatori/01-memoria.svg)
 
 Nell'immagine gli indirizzi sono **inventati**: servono soltanto a mostrare che:
 
@@ -69,7 +69,7 @@ int **q = &p;      // puntatore a int *
 int ***r = &q;     // puntatore a int **
 ```
 
-![Catena di doppio puntatore da q a p e da p a x](immagini-puntatori/02-doppio-puntatore.svg)
+![Catena di doppio puntatore da q a p e da p a x](Puntatori/02-doppio-puntatore.svg)
 
 | Espressione | Tipo | Valore nel codice |
 |---|---|---|
@@ -163,7 +163,7 @@ L'indicizzazione è una forma di dereferenziazione con spostamento. Un puntatore
 p += 2;        // ora p == &a[2] e *p == 30
 ```
 
-![Aritmetica su array: avanzamento di due interi](immagini-puntatori/03-aritmetica.svg)
+![Aritmetica su array: avanzamento di due interi](Puntatori/03-aritmetica.svg)
 
 Se `sizeof(int) == 4`, aggiungere `2` a un `int *` aumenta l'indirizzo di **8 byte**. La distanza dipende dal tipo, ma l'operazione si esprime sempre in elementi.
 
@@ -228,7 +228,7 @@ L'assegnazione scrive `20` in `arr[0]` e poi incrementa `p`. **Risultato:** `arr
 
 `sizeof` restituisce la dimensione, in **byte C**, del tipo o dell'espressione. Il risultato è di tipo `size_t`, stampabile con `%zu`.
 
-![Differenza tra sizeof del puntatore e sizeof del tipo puntato](immagini-puntatori/05-sizeof.svg)
+![Differenza tra sizeof del puntatore e sizeof del tipo puntato](Puntatori/05-sizeof.svg)
 
 ### Esercizio reale — 10/02/2025, domanda 5 (1 punto)
 
@@ -370,7 +370,7 @@ delete[] mat;
 mat = nullptr;           // C++11 e successivi
 ```
 
-![Matrice dinamica a due righe, cinque colonne, creata con array di puntatori](immagini-puntatori/04-matrice-dinamica.svg)
+![Matrice dinamica a due righe, cinque colonne, creata con array di puntatori](Puntatori/04-matrice-dinamica.svg)
 
 **Perché `mat[0][2]` è un intero e non un indirizzo?**
 
