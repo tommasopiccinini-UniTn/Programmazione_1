@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="315" viewBox="0 0 1000 315" role="img"><defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0 L0 6 L9 3 z" fill="#137D80"/></marker></defs><rect width="1000" height="315" rx="18" fill="#FFFFFF"/><g font-family="Arial,Helvetica,sans-serif">
+<text x="42" y="44" font-size="26" font-weight="700" fill="#132238">Doppio puntatore: due livelli di indirezione</text>
+<rect x="48" y="101" width="226" height="125" rx="14" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2"/>
+<rect x="386" y="101" width="226" height="125" rx="14" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2"/>
+<rect x="724" y="101" width="226" height="125" rx="14" fill="#E4F5F3" stroke="#137D80" stroke-width="2"/>
+<text x="161" y="139" text-anchor="middle" font-size="24" font-weight="700" fill="#132238">q : int **</text>
+<text x="161" y="184" text-anchor="middle" font-size="22" fill="#137D80">&amp;p</text>
+<text x="499" y="139" text-anchor="middle" font-size="24" font-weight="700" fill="#132238">p : int *</text>
+<text x="499" y="184" text-anchor="middle" font-size="22" fill="#137D80">&amp;x</text>
+<text x="837" y="139" text-anchor="middle" font-size="24" font-weight="700" fill="#132238">x : int</text>
+<text x="837" y="184" text-anchor="middle" font-size="22" fill="#137D80">10</text>
+<path d="M274 163 H378" stroke="#137D80" stroke-width="4" marker-end="url(#arrow)" />
+<path d="M612 163 H716" stroke="#137D80" stroke-width="4" marker-end="url(#arrow)" />
+<text x="330" y="147" text-anchor="middle" font-size="16" fill="#63748B">*q</text>
+<text x="668" y="147" text-anchor="middle" font-size="16" fill="#63748B">*p</text>
+<text x="500" y="284" font-size="20" text-anchor="middle" fill="#132238">q contiene &amp;p   •   *q è p   •   **q è x</text>
+</g></svg>
