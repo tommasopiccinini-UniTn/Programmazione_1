@@ -46,6 +46,8 @@ Nell'immagine gli indirizzi sono **inventati**: servono soltanto a mostrare che:
 
 ### Indirizzi: binario o esadecimale?
 
+(La stampa degli indirizzi con `printf("%p", ...)` e il dettaglio sul formato `%p` non sono presentati nelle slide; approfondimento pratico.)
+
 L'indirizzo è rappresentato nella memoria secondo la rappresentazione dei puntatori dell'implementazione. La **notazione esadecimale** (`0x1000`) è una modalità usuale per **scrivere o visualizzare** un indirizzo, non il suo «tipo».
 
 ```c
@@ -59,6 +61,8 @@ printf("%p\n", (void *)p);  // stampa una rappresentazione dell'indirizzo
 L'output esatto varia tra esecuzioni e sistemi; `%p` usa un formato definito dall'implementazione, comunemente esadecimale.
 
 ## 2. Tipi `int *`, `int **`, `int ***`
+
+(Il **triplo puntatore** `int ***` è un'estensione didattica non presente nelle slide: la dispensa 6.1 tratta esplicitamente il **doppio puntatore** `int **`.)
 
 Un tipo puntatore include il **tipo dell'oggetto puntato**. Ogni ulteriore `*` nella dichiarazione indica un nuovo livello d'indirezione.
 
@@ -141,9 +145,9 @@ Le quattro affermazioni vero/falso presenti nella stessa domanda:
 | Si può dereferenziare un puntatore non inizializzato | **Falso** | Indirizzo indeterminato; accesso non valido |
 | Dichiarare un puntatore alloca la variabile puntata | **Falso** | Alloca soltanto la **variabile puntatore** |
 | Puntatori a tipi diversi sono sempre compatibili | **Falso** | Compatibilità e conversioni dipendono dai tipi; `void *` è un caso particolare |
-| La dimensione in memoria di un puntatore dipende dal tipo puntato | **Generalmente falso nel modello del corso** | Per i normali puntatori ai dati sulle piattaforme usuali la dimensione è la stessa. Lo standard C non obbliga *tutti* i tipi puntatore ad avere la medesima dimensione |
+| La dimensione in memoria di un puntatore dipende dal tipo puntato | **Generalmente falso nel modello del corso** | Per i normali puntatori ai dati sulle piattaforme usuali la dimensione è la stessa. Lo standard C non obbliga *tutti* i tipi puntatore ad avere la medesima dimensione **(precisazione dello standard non esplicitata nelle slide)** |
 
-**Nota su `*pi++;`:** siccome `pi` punta al solo oggetto `i`, dopo `pi++` assume il valore *one-past* rispetto a quell'oggetto; non è lecito dereferenziarlo mentre è in tale posizione. Il codice **non** incrementa `i`.
+**Nota su `*pi++;`:** siccome `pi` punta al solo oggetto `i`, dopo `pi++` assume il valore *one-past* rispetto a quell'oggetto; non è lecito dereferenziarlo mentre è in tale posizione. Il codice **non** incrementa `i`. (La nozione formale di puntatore *one-past* non è sviluppata nelle slide.)
 
 ## 4. Puntatori e array: aritmetica
 
@@ -176,7 +180,7 @@ Se `sizeof(int) == 4`, aggiungere `2` a un `int *` aumenta l'indirizzo di **8 by
 | `p + q` | **Non ammesso** |
 | `a = p;` o `a++;` | **Non ammessi**: l'identificatore dell'array non è una variabile puntatore modificabile |
 
-> **Limiti:** la normale aritmetica dei puntatori è definita soltanto entro lo stesso array (oppure fino alla posizione **subito dopo** l'ultimo elemento). Il puntatore one-past può essere formato, ma **non dereferenziato**. Per il calcolo della differenza `p-q` occorre anche che il risultato sia rappresentabile in `ptrdiff_t`.
+> **Limiti:** la normale aritmetica dei puntatori è definita soltanto entro lo stesso array (oppure fino alla posizione **subito dopo** l'ultimo elemento). Il puntatore one-past può essere formato, ma **non dereferenziato**. Per il calcolo della differenza `p-q` occorre anche che il risultato sia rappresentabile in `ptrdiff_t` (**dettaglio formale e tipo `ptrdiff_t` non trattati nelle slide**).
 
 ## 5. Precedenza di `*` e `++` — il punto più insidioso
 
@@ -226,7 +230,7 @@ L'assegnazione scrive `20` in `arr[0]` e poi incrementa `p`. **Risultato:** `arr
 
 ## 6. `sizeof`: dimensione del puntatore o del dato puntato?
 
-`sizeof` restituisce la dimensione, in **byte C**, del tipo o dell'espressione. Il risultato è di tipo `size_t`, stampabile con `%zu`.
+`sizeof` restituisce la dimensione, in **byte C**, del tipo o dell'espressione. Il risultato è di tipo `size_t`, stampabile con `%zu` (**questi dettagli su `size_t` e `%zu` non compaiono nelle slide; l'operatore `sizeof` invece è trattato**).
 
 ![Differenza tra sizeof del puntatore e sizeof del tipo puntato](05-sizeof.svg)
 
@@ -275,6 +279,8 @@ sizeof(&p)  = 8    // puntatore al puntatore
 
 ## 7. Puntatori invalidi, `NULL` e durata della memoria
 
+(I puntatori non inizializzati e `NULL` sono presenti nella dispensa 6.1; **dangling pointer, `free` e doppia deallocazione sono approfondimenti non trattati nelle slide**.)
+
 | Situazione | Conseguenza |
 |---|---|
 | `int *p;` locale senza inizializzazione | `p` ha valore indeterminato: **non usarlo come indirizzo** |
@@ -290,6 +296,8 @@ sizeof(&p)  = 8    // puntatore al puntatore
 **Distinzione importante:** dichiarare `int x = 10; int *p = &x;` non richiede `malloc`. La memoria di variabili locali ordinarie viene gestita automaticamente e la loro durata termina quando termina il blocco appropriato. **Non chiamare `free(&x)`**: `free` si applica solo a memoria dinamica ottenuta con funzioni di allocazione compatibili.
 
 ## 8. Allocazione e deallocazione in C — `malloc` / `free`
+
+(**Funzioni `malloc` e `free` non presenti né spiegate nelle slide caricate**: approfondimento sulla memoria dinamica, che nelle dispense è soltanto menzionata. Anche i termini *memory leak*, *double free* e *dangling pointer* non sono trattati esplicitamente nelle slide.)
 
 - **Allocazione:** ottenere una regione di memoria in cui conservare dati.
 - **Deallocazione:** rilasciare una regione precedentemente allocata, rispettandone la provenienza.
@@ -329,6 +337,8 @@ flowchart TD
 **Memory leak:** perdere tutti i riferimenti utili a una regione allocata senza averla liberata. **Double free:** deallocare due volte la stessa regione. **Dangling pointer:** un puntatore che conserva il riferimento a memoria non più valida.
 
 ## 9. Allocazione e deallocazione in C++ — `new` / `delete`
+
+(**`new`, `delete`, `new[]`, `delete[]` e `nullptr` non sono trattati nelle slide caricate;** sono mantenuti perché `new`/`delete` compaiono negli esercizi d'esame del 10/02/2025 e 03/09/2025. `nullptr` è un dettaglio ulteriore del C++.)
 
 > **Attenzione per il corso:** le domande del **10/02/2025** e del **03/09/2025** usano `new` e `delete`, che sono **C++**, non C standard. Non mescolare `malloc/free` e `new/delete` per la stessa allocazione.
 
@@ -462,7 +472,7 @@ ps->valore   // 7: forma abbreviata di (*ps).valore
 4. **Validità:** il puntatore è inizializzato? Punta a memoria ancora viva? L'accesso è dentro i limiti?
 5. **Array:** gli indici equivalgono a spostamento + dereferenziazione; `sizeof(array)` non equivale a `sizeof(puntatore)`.
 6. **`sizeof`:** determinare il **tipo dell'espressione**, non il valore numerico; ricordare le promozioni intere.
-7. **Allocazione:** distinguere oggetto singolo e array, abbinare correttamente `malloc/free` oppure `new/delete`, `new[]/delete[]`.
+7. **Allocazione:** distinguere oggetto singolo e array, abbinare correttamente `malloc/free` oppure `new/delete`, `new[]/delete[]` (**non presenti nelle slide; `new/delete` compare nelle prove d'esame**).
 8. **Matrici via `int **`:** prima raggiungere il puntatore alla riga, poi l'intero; deallocare **prima le righe e poi l'array esterno**.
 
 ## Riferimenti e provenienza
