@@ -223,6 +223,48 @@ for (int i = 0; i < 3; i++)
 
 Gli scambi sono `(0,1) ↔ (1,0)`, `(0,2) ↔ (2,0)`, `(1,2) ↔ (2,1)`. **Se `j` partisse da 0**, ogni coppia fuori diagonale verrebbe scambiata *due volte* e la matrice tornerebbe identica. Per verificare la **simmetria** si confrontano `M[i][j]` e `M[j][i]` solo per `j > i`.
 
+### Esempio reale d'esame — 03/09/2025, domanda 2 (2 punti)
+
+**Fonte:** [Prova teorica PROG1 del 3 settembre 2025](../../Prove_Teoriche/030925%20ProvaTeorica%20PROG1.pdf), **domanda 2**. Si richiede di determinare la matrice finale dopo i doppi cicli e gli scambi. Di seguito il codice **riformattato e reso autonomo** con i dati della matrice iniziale riportati nel PDF.
+
+```c
+#define N 4
+typedef int matrice4x4[N][N];
+
+int main(void) {
+    matrice4x4 m = {
+        {5, 0, 4, 1},
+        {9, 2, 1, 5},
+        {7, 3, 2, 8},
+        {6, 6, 9, 0}
+    };
+    int r, c, temp;
+
+    for (r = 0; r < N; r++)
+        for (c = 0; c < N / 2; c++) {
+            temp = m[r][c];
+            m[r][c] = m[r][(c + 1) % N];
+            m[r][(c + 1) % N] = temp;
+        }
+
+    return 0;
+}
+```
+
+**Soluzione:**
+
+```text
+Matrice iniziale     Matrice finale
+5 0 4 1              0 4 5 1
+9 2 1 5              2 1 9 5
+7 3 2 8              3 2 7 8
+6 6 9 0              6 9 6 0
+```
+
+**Passaggi su una riga:** `[5,0,4,1]` → (`c=0`, scambio col. 0↔1) `[0,5,4,1]` → (`c=1`, scambio col. 1↔2) `[0,4,5,1]`. Lo stesso vale per le altre righe. Poiché `N / 2 = 2`, `c` assume solo i valori 0 e 1; in questo caso `(c + 1) % N` vale rispettivamente 1 e 2.
+
+**Trappola d'esame:** il secondo scambio utilizza i **valori aggiornati** dal primo, non la matrice originale.
+
 ## 9. Modifiche cumulative: valori già aggiornati
 
 ```c
