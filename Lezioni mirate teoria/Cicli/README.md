@@ -254,7 +254,7 @@ Per stampare un pattern numerico **senza costruire una matrice**, la chiave è e
 for (int i = 0; i < N; i++) {
     for (int j = 0; j < N; j++)
         printf("%d ", i > j ? i : j);
-    printf("\\n");
+    printf("\n");
 }
 ```
 
