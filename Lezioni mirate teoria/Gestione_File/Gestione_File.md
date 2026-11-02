@@ -48,6 +48,23 @@ if (fp != NULL) {
 }
 ~~~
 
+~~~c
+// numeri.txt contiene interi separati da spazi o righe nuove
+FILE *fp = fopen("numeri.txt", "r");
+if (fp == NULL) {
+    printf("Errore in apertura file numeri.txt\n");
+} else {
+    int numero, cntPari = 0;
+    while (fscanf(fp, "%d", &numero) == 1) {
+        if (numero % 2 == 0)
+            cntPari++;
+    }
+    printf("Ci sono %d numeri pari\n", cntPari);
+    fclose(fp);
+}
+~~~
+`fscanf(fp, "%d", &numero)` legge un intero alla volta, ignorando gli spazi e gli a capo tra i numeri. Il confronto con `1` verifica che sia stato letto e assegnato **un intero**; `fclose` viene chiamato solo se l'apertura è riuscita.
+
 ## EOF e gestione errori
 - **EOF** è il risultato speciale di operazioni di lettura fallite per fine file o errore; non è un normale carattere del file.
 - **feof(fp)** verifica l'indicatore di fine file *dopo* una lettura che ha raggiunto la fine.
