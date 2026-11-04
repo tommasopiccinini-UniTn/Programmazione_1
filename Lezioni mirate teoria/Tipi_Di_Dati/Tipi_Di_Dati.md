@@ -58,11 +58,28 @@ void esempio(void) {
 
 I membri di una `struct` occupano memoria nell'oggetto dichiarato; per esigenze di allineamento, `sizeof(struct Studente)` può essere **maggiore della somma** dei `sizeof` dei singoli campi.
 
-`typedef` dà un **altro nome a un tipo esistente**: da solo non crea una variabile né una copia distinta del tipo. `enum` definisce nomi per valori interi: senza valori specificati, il primo vale zero e i successivi aumentano di uno.
+`typedef` dà un **altro nome a un tipo esistente**: da solo non crea una variabile né una copia distinta del tipo. Prima un esempio minimo:
 
 ~~~c
-typedef struct Studente Studente;
-Studente altro = {456, 26.0f};
+typedef int Matricola;   // Matricola è un nome alternativo per int
+Matricola numero = 456;  // equivale a: int numero = 456;
+~~~
+
+Si usa spesso anche per dare un nome breve a una `struct`. Il `typedef` definisce il **nome del tipo**; la riga successiva crea la **variabile**:
+
+~~~c
+typedef struct {
+    int giorno;
+    int mese;
+    int anno;
+} Data;
+
+Data esame = {10, 2, 2025};  // variabile di tipo Data
+~~~
+
+`enum` definisce nomi per valori interi: senza valori specificati, il primo vale zero e i successivi aumentano di uno.
+
+~~~c
 
 enum Giorno { LUN, MAR, MER };     // LUN=0, MAR=1, MER=2
 enum Giorno oggi = MAR;
