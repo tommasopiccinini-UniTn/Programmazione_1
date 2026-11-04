@@ -32,6 +32,45 @@ Una variabile locale automatica non inizializzata non ha un valore iniziale dete
 
 Per i valori di verità, in C si può usare `_Bool` (o `bool` includendo `<stdbool.h>` nelle versioni che lo forniscono). Array, `struct`, puntatori ed `enum` sono altri tipi costruiti o definiti a partire dai tipi di base.
 
+## `char` e numeri reali: due particolarità
+
+Un `char` è anche un **tipo intero**: in memoria conserva un codice numerico. Per esempio, se si usa ASCII, `'a'` corrisponde al codice 97. Per questo i caratteri si possono confrontare e usare in operazioni aritmetiche; in un'espressione aritmetica vengono applicate le promozioni spiegate più avanti. Non confondere `'a'` (un carattere) con `"a"` (un array di caratteri che contiene anche `\0`).
+
+`float` e `double` rappresentano un insieme **finito** di numeri in virgola mobile; non tutti i valori decimali sono rappresentabili esattamente. In genere `double` offre più precisione di `float`. Una costante come `1.5` ha tipo `double`, mentre `1.5f` ha tipo `float`; si può usare anche la notazione scientifica, per esempio `3.73e-5`.
+
+Per effetto degli arrotondamenti, il confronto `x == y` fra risultati di calcoli in virgola mobile può essere falso anche quando matematicamente ci si aspetterebbe l'uguaglianza. Se l'esercizio richiede una tolleranza assoluta, si può confrontare la differenza con una soglia scelta in base al problema.
+
+## Tipi composti e nomi definiti dal programmatore
+
+Un **array** contiene più elementi dello **stesso tipo**; una `struct` raggruppa campi anche di **tipi diversi**. Definire un tipo e dichiarare una variabile di quel tipo sono due operazioni distinte:
+
+~~~c
+struct Studente {       // definizione del tipo
+    int matricola;
+    float media;
+};
+
+void esempio(void) {
+    struct Studente s = {123, 27.5f};  // variabile di quel tipo
+    s.media = 28.0f;                   // accesso a un campo con il punto
+}
+~~~
+
+I membri di una `struct` occupano memoria nell'oggetto dichiarato; per esigenze di allineamento, `sizeof(struct Studente)` può essere **maggiore della somma** dei `sizeof` dei singoli campi.
+
+`typedef` dà un **altro nome a un tipo esistente**: da solo non crea una variabile né una copia distinta del tipo. `enum` definisce nomi per valori interi: senza valori specificati, il primo vale zero e i successivi aumentano di uno.
+
+~~~c
+typedef struct Studente Studente;
+Studente altro = {456, 26.0f};
+
+enum Giorno { LUN, MAR, MER };     // LUN=0, MAR=1, MER=2
+enum Giorno oggi = MAR;
+enum Mese { GEN=1, FEB, MARZO };  // GEN=1, FEB=2, MARZO=3
+~~~
+
+La dispensa presenta anche `union` e campi a bit come altri modi di definire dati; per il primo ripasso conviene saper distinguere soprattutto **array, struct, typedef ed enum**. Per esempi più ampi su array e `struct`, vedi la [scheda dedicata](../Array_Struct/Array_Struct.md).
+
 ## Dimensioni: cosa è garantito e cosa no
 
 `sizeof` restituisce la dimensione in **byte** dell'oggetto o del tipo. Un `char` occupa sempre **1 byte C**; il numero di bit in un byte si può leggere tramite `CHAR_BIT` in `<limits.h>` (spesso 8). La dimensione degli altri tipi dipende dal sistema e dal compilatore. Per gli interi vale almeno questo ordinamento:
